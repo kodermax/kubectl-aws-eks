@@ -1,0 +1,6 @@
+name: kubectl-for-eks
+description: "This action provides kubectl for Github Actions."
+author: 'Maksim Karpychev'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
