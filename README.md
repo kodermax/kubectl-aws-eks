@@ -36,5 +36,3 @@ jobs:
 ```bash
 cat $HOME/.kube/config | base64
 ```
-
-**Note**: Do not use kubectl config view as this will hide the certificate-authority-data.
