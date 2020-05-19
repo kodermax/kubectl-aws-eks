@@ -1,4 +1,4 @@
-# Github Action for Kubernetes CLI
+# Docker and Github Action for Kubernetes CLI
 
 This action provides `kubectl` for Github Actions.
 
