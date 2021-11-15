@@ -12,7 +12,9 @@ The solution is add key and secret for AWS, this version will automatically crea
 ### Secrets update for the fork
 
 `AWS_ACCESS_KEY_ID` – **required**
+
 `AWS_SECRET_ACCESS_KEY` – **required**
+
 `AWS_PROFILE`  – **required**
 
 
