@@ -1,4 +1,4 @@
-name: kubectl-aws-eks
+name: kubectl-aws-eks-v122
 description: "This action provides kubectl for Github Actions."
 author: 'Maksim Karpychev'
 runs:
