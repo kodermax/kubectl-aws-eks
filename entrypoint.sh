@@ -27,4 +27,3 @@ else
 fi
 
 sh -c "kubectl $*"
-#sh -c "which aws-iam-authenticator"
