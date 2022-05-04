@@ -60,7 +60,7 @@ Make sure that your `$HOME/.kube/config` doesn't contain a `AWS_PROFILE`, i.e. r
 env:
 - name: AWS_PROFILE
     value: github-actions
-``
+```
 
 ## Configurable Variables
 
