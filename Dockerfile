@@ -1,11 +1,9 @@
-FROM amazon/aws-cli
+FROM amazon/aws-cli:latest
 
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
-    curl -L -o /usr/local/bin/aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.7/aws-iam-authenticator_0.5.7_linux_amd64 && \
-    chmod +x /usr/local/bin/aws-iam-authenticator && \
-    chmod +x ./kubectl && \
-    mv ./kubectl /usr/bin/kubectl 
+RUN yum install jq -y && curl -sL -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+    curl -sL -o /usr/bin/aws-iam-authenticator $(curl -s https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r ' .assets[] | select(.name | contains("linux_amd64")    )' | jq -r '.browser_download_url')  && \
+    chmod +x /usr/bin/aws-iam-authenticator && \
+    chmod +x /usr/bin/kubectl
 
-RUN kubectl version --client
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
