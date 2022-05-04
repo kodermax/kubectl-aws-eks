@@ -53,3 +53,11 @@ jobs:
 ```bash
 cat $HOME/.kube/config | base64
 ```
+
+Make sure that your `$HOME/.kube/config` doesn't contain a `AWS_PROFILE`, i.e. remove the following section if it exists before doing the base64 encoding:
+
+```yaml
+env:
+- name: AWS_PROFILE
+    value: github-actions
+```
