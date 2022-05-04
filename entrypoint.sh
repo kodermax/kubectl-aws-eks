@@ -17,13 +17,13 @@ else
 fi
 
 if [ -z ${IAM_VERSION+x} ] ; then
-    echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version)"
+    echo "Using aws-iam-authenticator version: v$(aws-iam-authenticator version)"
 else
-    echo "Pulling aws-iam-authenticator for version $IAM_VERSION"
-    rm /usr/bin/aws-iam-authenticator
+    echo "Pulling aws-iam-authenticator for version v$IAM_VERSION"
+    rm /usr/local/bin/aws-iam-authenticator
     curl -sL -o /usr/local/bin/aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v$IAM_VERSION/aws-iam-authenticator_$IAM_VERSION_linux_amd64 && \
         chmod +x /usr/local/bin/aws-iam-authenticator
-    echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version)"
+    echo "Using aws-iam-authenticator version: v$(aws-iam-authenticator version)"
 fi
 
 sh -c "kubectl $*"
