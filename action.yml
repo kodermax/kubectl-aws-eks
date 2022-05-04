@@ -1,6 +1,6 @@
 name: kubectl-aws-eks
 description: "This action provides kubectl for Github Actions."
-author: 'Maksim Karpychev'
+author: 'Alif Capital'
 runs:
   using: 'docker'
   image: 'Dockerfile'

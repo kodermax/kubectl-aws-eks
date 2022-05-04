@@ -1,6 +1,8 @@
 # Docker and Github Action for Kubernetes CLI
 
-This action provides `kubectl` for Github Actions.
+This action provides a `kubectl` for Github Actions using v1.21.12
+
+# This Pegs the version of kubectl to v1.21.12
 
 ## Usage
 
@@ -29,7 +31,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: deploy to cluster
-      uses: kodermax/kubectl-aws-eks@master
+      uses: alifcapital/kubectl-aws-eks@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -39,7 +41,7 @@ jobs:
         args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
     - name: verify deployment
-      uses: kodermax/kubectl-aws-eks@master
+      uses: alifcapital/kubectl-aws-eks@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
