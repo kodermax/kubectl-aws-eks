@@ -54,6 +54,11 @@ jobs:
 cat $HOME/.kube/config | base64
 ```
 
+```PowerShell
+$base64Data = [Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\.kube\config"))
+Write-Output $base64Data
+```
+
 Make sure that your `$HOME/.kube/config` doesn't contain a `AWS_PROFILE`, i.e. remove the following section if it exists before doing the base64 encoding:
 
 ```yaml
