@@ -50,8 +50,14 @@ jobs:
 
 `KUBE_CONFIG_DATA` – **required**: A base64-encoded kubeconfig file with credentials for Kubernetes to access the cluster. You can get it by running the following command:
 
+### Bash
 ```bash
 cat $HOME/.kube/config | base64
+```
+### PowerShell
+```PowerShell
+$base64Data = [Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\.kube\config"))
+Write-Output $base64Data
 ```
 
 Make sure that your `$HOME/.kube/config` doesn't contain a `AWS_PROFILE`, i.e. remove the following section if it exists before doing the base64 encoding:
