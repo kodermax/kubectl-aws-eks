@@ -7,7 +7,7 @@ echo "$KUBE_CONFIG_DATA" | base64 -d > /tmp/config
 export KUBECONFIG=/tmp/config
 
 if [ -z ${KUBECTL_VERSION+x} ] ; then
-    echo "Using kubectl version: $(kubectl version --client --short)"
+    echo "Using kubectl version: $(kubectl version --client)"
 else
     echo "Pulling kubectl for version $KUBECTL_VERSION"
     rm /usr/bin/kubectl
