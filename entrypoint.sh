@@ -27,8 +27,8 @@ else
 fi
 
 if [ -z "$RUN_COMMAND" ] ; then
-    sh -c "kubectl $RUN_COMMAND"
-else
     sh -c "kubectl $*"
+else
+    sh -c "kubectl $RUN_COMMAND"        
 fi
 
