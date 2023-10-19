@@ -51,10 +51,13 @@ jobs:
 `KUBE_CONFIG_DATA` – **required**: A base64-encoded kubeconfig file with credentials for Kubernetes to access the cluster. You can get it by running the following command:
 
 ### Bash
+
 ```bash
 cat $HOME/.kube/config | base64
 ```
+
 ### PowerShell
+
 ```PowerShell
 $base64Data = [Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\.kube\config"))
 Write-Output $base64Data
@@ -99,4 +102,40 @@ env:
           IAM_VERSION: "0.5.6"
         with:
           args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+```
+
+## Deploying database changes with Prisma Migrate on Kubernetes
+
+```yaml
+name: Deploy Database Migrations
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/database/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: kodermax/kubectl-aws-eks:latest
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_TEST }}
+          RUN_COMMAND: port-forward svc/postgresql-1697720510 5432:5432 --address='0.0.0.0'
+        ports:
+          - 5432:5432/tcp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: pnpm install
+      - name: Apply all pending migrations to the database
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+        run: pnpm db-deploy
+
 ```
