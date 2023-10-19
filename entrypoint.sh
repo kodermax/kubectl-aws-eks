@@ -26,7 +26,7 @@ else
     echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version)"
 fi
 
-if [ -z ${RUN_COMMAND+x} ] ; then
+if [ -z "$RUN_COMMAND" ] ; then
     sh -c "kubectl $RUN_COMMAND"
 else
     sh -c "kubectl $*"
