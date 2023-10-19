@@ -39,5 +39,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: kodermax/kubectl-aws-eks:latest
           labels: ${{ steps.meta.outputs.labels }}
