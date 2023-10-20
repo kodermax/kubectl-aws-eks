@@ -29,7 +29,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: deploy to cluster
-      uses: kodermax/kubectl-aws-eks@master
+      uses: kodermax/kubectl-aws-eks@main
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -39,7 +39,7 @@ jobs:
         args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
     - name: verify deployment
-      uses: kodermax/kubectl-aws-eks@master
+      uses: kodermax/kubectl-aws-eks@main
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
@@ -77,7 +77,7 @@ env:
 
 ```yaml
       - name: deploy to cluster
-        uses: kodermax/kubectl-aws-eks@master
+        uses: kodermax/kubectl-aws-eks@main
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -92,7 +92,7 @@ env:
 
 ```yaml
       - name: deploy to cluster
-        uses: kodermax/kubectl-aws-eks@master
+        uses: kodermax/kubectl-aws-eks@main
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
