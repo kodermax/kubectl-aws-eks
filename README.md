@@ -31,7 +31,7 @@ jobs:
     - name: deploy to cluster
       uses: kodermax/kubectl-aws-eks@main
       env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: my-app
         IMAGE_TAG: ${{ github.sha }}
@@ -79,7 +79,7 @@ env:
       - name: deploy to cluster
         uses: kodermax/kubectl-aws-eks@main
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: my-app
           IMAGE_TAG: ${{ github.sha }
@@ -94,7 +94,7 @@ env:
       - name: deploy to cluster
         uses: kodermax/kubectl-aws-eks@main
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: my-app
           IMAGE_TAG: ${{ github.sha }
