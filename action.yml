@@ -1,6 +1,18 @@
 name: kubectl-aws-eks
-description: "This action provides kubectl for Github Actions."
+description: "GitHub Action for working with AWS EKS, including kubectl, AWS CLI and aws-iam-authenticator"
 author: 'Maksim Karpychev'
+
+branding:
+  icon: 'cloud'
+  color: 'orange'
+
+inputs:
+  args:
+    description: 'Arguments for the kubectl command'
+    required: true
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.args }}

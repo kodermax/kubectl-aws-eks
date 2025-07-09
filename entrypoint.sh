@@ -2,28 +2,51 @@
 
 set -e
 
+# Check if KUBE_CONFIG_DATA environment variable is set
+if [ -z "$KUBE_CONFIG_DATA" ]; then
+    echo "Error: KUBE_CONFIG_DATA environment variable is not set"
+    exit 1
+fi
+
 # Extract the base64 encoded config data and write this to the KUBECONFIG
 echo "$KUBE_CONFIG_DATA" | base64 -d > /tmp/config
 export KUBECONFIG=/tmp/config
 
+# Check if config was successfully decoded
+if [ ! -s /tmp/config ]; then
+    echo "Error: Failed to decode KUBE_CONFIG_DATA"
+    exit 1
+fi
+
 if [ -z ${KUBECTL_VERSION+x} ] ; then
-    echo "Using kubectl version: $(kubectl version --client)"
+    echo "Using kubectl version: $(kubectl version --client 2>&1)"
 else
     echo "Pulling kubectl for version $KUBECTL_VERSION"
-    rm /usr/bin/kubectl
+    rm -f /usr/bin/kubectl
     curl -sL -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/"$KUBECTL_VERSION"/bin/linux/amd64/kubectl && \
         chmod +x /usr/bin/kubectl
-    echo "Using kubectl version: $(kubectl version --client --short)"
+    echo "Using kubectl version: $(kubectl version --client --short 2>&1)"
 fi
 
 if [ -z ${IAM_VERSION+x} ] ; then
-    echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version)"
+    echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version 2>&1)"
 else
     echo "Pulling aws-iam-authenticator for version $IAM_VERSION"
-    rm /usr/bin/aws-iam-authenticator
+    rm -f /usr/bin/aws-iam-authenticator
     curl -sL -o /usr/bin/aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v"$IAM_VERSION"/aws-iam-authenticator_"$IAM_VERSION"_linux_amd64 && \
     chmod +x /usr/bin/aws-iam-authenticator
-    echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version)"
+    echo "Using aws-iam-authenticator version: $(aws-iam-authenticator version 2>&1)"
+fi
+
+# Check if tools were successfully installed
+if ! command -v kubectl >/dev/null 2>&1; then
+    echo "Error: kubectl is not installed or not executable"
+    exit 1
+fi
+
+if ! command -v aws-iam-authenticator >/dev/null 2>&1; then
+    echo "Error: aws-iam-authenticator is not installed or not executable"
+    exit 1
 fi
 
 if [ -z "$RUN_COMMAND" ] ; then
@@ -31,4 +54,3 @@ if [ -z "$RUN_COMMAND" ] ; then
 else
     sh -c "kubectl $RUN_COMMAND"        
 fi
-
