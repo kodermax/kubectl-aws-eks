@@ -10,7 +10,7 @@ RUN curl -sL -o /usr/bin/jq https://github.com/jqlang/jq/releases/download/jq-1.
 
 # Add checksum verification for security
 RUN echo "Checking versions of installed tools:" && \
-    kubectl version --client --short || true && \
+    kubectl version --client || true && \
     aws-iam-authenticator version || true
 
 COPY entrypoint.sh /entrypoint.sh
