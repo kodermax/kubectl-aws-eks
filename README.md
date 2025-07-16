@@ -38,7 +38,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Deploy to EKS cluster
-      uses: kodermax/kubectl-aws-eks@1
+      uses: kodermax/kubectl-aws-eks@v1
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -48,7 +48,7 @@ jobs:
         args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
     - name: Verify deployment
-      uses: kodermax/kubectl-aws-eks@1
+      uses: kodermax/kubectl-aws-eks@v1
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
@@ -87,7 +87,7 @@ By default, this action uses the latest stable version of kubectl. To use a spec
 
 ```yaml
 - name: Deploy to EKS cluster
-  uses: kodermax/kubectl-aws-eks@1
+  uses: kodermax/kubectl-aws-eks@v1
   env:
     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -104,7 +104,7 @@ By default, this action uses the latest version of aws-iam-authenticator. To use
 
 ```yaml
 - name: Deploy to EKS cluster
-  uses: kodermax/kubectl-aws-eks@1
+  uses: kodermax/kubectl-aws-eks@v1
   env:
     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -160,7 +160,7 @@ You can run any kubectl command by passing it as the `args` parameter:
 
 ```yaml
 - name: Get pod information
-  uses: kodermax/kubectl-aws-eks@1
+  uses: kodermax/kubectl-aws-eks@v1
   env:
     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
   with:
@@ -171,7 +171,7 @@ You can run any kubectl command by passing it as the `args` parameter:
 
 ```yaml
 - name: Apply Kubernetes manifests
-  uses: kodermax/kubectl-aws-eks@1
+  uses: kodermax/kubectl-aws-eks@v1
   env:
     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
   with:
