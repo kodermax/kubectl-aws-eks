@@ -2,6 +2,11 @@
 
 set -e
 
+# Set default TARGETARCH if not provided
+if [ -z "$TARGETARCH" ]; then
+    export TARGETARCH=amd64
+fi
+
 # Check if KUBE_CONFIG_DATA environment variable is set
 if [ -z "$KUBE_CONFIG_DATA" ]; then
     echo "Error: KUBE_CONFIG_DATA environment variable is not set"
@@ -18,6 +23,7 @@ if [ ! -s /tmp/config ]; then
     exit 1
 fi
 
+# Handle kubectl version if specified
 if [ ! -z "${KUBECTL_VERSION}" ]; then
     if [ ! -e /usr/bin/kubectl-${KUBECTL_VERSION} ]; then
         echo "Pulling kubectl for version $KUBECTL_VERSION"
@@ -30,6 +36,7 @@ if [ ! -z "${KUBECTL_VERSION}" ]; then
 fi
 echo "Using kubectl version: $(kubectl version --client 2>&1)"
 
+# Handle aws-iam-authenticator version if specified
 if [ ! -z "${IAM_VERSION}" ]; then
     if [ ! -e /usr/bin/aws-iam-authenticator-${IAM_VERSION} ]; then
         echo "Pulling aws-iam-authenticator for version $IAM_VERSION"
@@ -53,6 +60,7 @@ if ! command -v aws-iam-authenticator >/dev/null 2>&1; then
     exit 1
 fi
 
+# Execute the command
 if [ -z "$RUN_COMMAND" ] ; then
     sh -c "kubectl $*"
 else
