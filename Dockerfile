@@ -2,6 +2,7 @@ FROM amazon/aws-cli:latest
 ARG TARGETARCH
 ARG JQ_VERSION=1.6
 ARG IAM_VERSION=0.6.12
+ENV TARGETARCH=${TARGETARCH}
 
 # Install system packages and jq first
 RUN dnf update -y && \
@@ -11,10 +12,13 @@ RUN dnf update -y && \
     chmod +x /usr/bin/jq
 
 # Install kubectl and aws-iam-authenticator
-RUN curl -sL -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl && \
-    curl -sL -o /usr/bin/aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${IAM_VERSION}/aws-iam-authenticator_${IAM_VERSION}_linux_${TARGETARCH} && \
-    chmod +x /usr/bin/aws-iam-authenticator && \
-    chmod +x /usr/bin/kubectl
+RUN export KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) && \
+    curl -sL -o /usr/bin/kubectl-${KUBECTL_VERSION} https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl && \
+    curl -sL -o /usr/bin/aws-iam-authenticator-${IAM_VERSION} https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${IAM_VERSION}/aws-iam-authenticator_${IAM_VERSION}_linux_${TARGETARCH} && \
+    chmod +x /usr/bin/aws-iam-authenticator-${IAM_VERSION} && \
+    chmod +x /usr/bin/kubectl-${KUBECTL_VERSION} && \
+    ln -s /usr/bin/aws-iam-authenticator-${IAM_VERSION} /usr/bin/aws-iam-authenticator && \
+    ln -s /usr/bin/kubectl-${KUBECTL_VERSION} /usr/bin/kubectl
 
 # Add checksum verification for security
 RUN echo "Checking versions of installed tools:" && \
