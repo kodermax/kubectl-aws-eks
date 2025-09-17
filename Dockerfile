@@ -6,7 +6,7 @@ ENV TARGETARCH=${TARGETARCH}
 
 # Install system packages and jq first
 RUN dnf update -y && \
-    dnf install --allowerasing -y coreutils && \
+    dnf install --allowerasing -y coreutils findutils && \
     rm /var/cache/dnf/*.solv* && \
     curl -sL -o /usr/bin/jq https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-linux-${TARGETARCH} && \
     chmod +x /usr/bin/jq
