@@ -13,6 +13,6 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/your-username/kubectl-aws-eks:latest'
+  image: 'docker://ghcr.io/kodermax/kubectl-aws-eks:latest'
   args:
     - ${{ inputs.args }}
