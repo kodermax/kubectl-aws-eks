@@ -1,0 +1,23 @@
+services:
+  aws-kubectl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        TARGETARCH: amd64
+        JQ_VERSION: 1.6
+        IAM_VERSION: 0.6.12
+    image: aws-kubectl:latest
+    container_name: aws-kubectl
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+    volumes:
+      - ~/.aws:/root/.aws:ro
+      - ~/.kube:/root/.kube
+      - ./:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
