@@ -34,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/kodermax
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
